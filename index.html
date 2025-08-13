@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View & Earn - Telegram Mini App</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <div class="header">
+            <button class="back-btn" onclick="goBack()">←</button>
+            <h1 id="header-title">View & Earn</h1>
+            <p id="header-subtitle">Earn coins by watching ads and completing tasks</p>
+        </div>
+
+        <div class="screen active" id="home">
+            <div class="card balance-card">
+                <div class="balance-amount" id="current-balance">1,250</div>
+                <div class="balance-label">💰 Current Balance</div>
+            </div>
+
+            <div class="main-buttons">
+                <button class="main-btn" onclick="showScreen('watch-ad')">
+                    <span class="icon">🎁</span>
+                    Watch Ad
+                </button>
+                <button class="main-btn" onclick="showScreen('tasks')">
+                    <span class="icon">📋</span>
+                    Tasks
+                </button>
+                <button class="main-btn" onclick="showScreen('balance')">
+                    <span class="icon">💰</span>
+                    My Balance
+                </button>
+                <button class="main-btn" onclick="showScreen('referral')">
+                    <span class="icon">👥</span>
+                    Refer & Earn
+                </button>
+            </div>
+
+            <div class="card">
+                <button class="main-btn" onclick="showScreen('withdraw')" style="width: 100%; grid-column: span 2;">
+                    <span class="icon">📤</span>
+                    Withdraw
+                </button>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">47</div>
+                    <div class="stat-label">Ads Watched</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">12</div>
+                    <div class="stat-label">Tasks Done</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="screen" id="watch-ad">
+            <div class="ad-container">
+                <div class="ad-timer" id="ad-timer">15s</div>
+                <div class="ad-placeholder">
+                    <div style="font-size: 48px; margin-bottom: 16px;">📺</div>
+                    <div>Advertisement Playing...</div>
+                    <div style="font-size: 14px; opacity: 0.7; margin-top: 8px;">Please wait for the ad to finish</div>
+                </div>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="ad-progress"></div>
+            </div>
+
+            <div class="success-message" id="ad-success">
+                🎉 Great! You earned 25 coins for watching this ad!
+            </div>
+
+            <button class="confirm-btn" id="confirm-ad-btn" onclick="confirmAdWatched()">
+                Confirm Ad Watched (+25 coins)
+            </button>
+        </div>
+
+        <div class="screen" id="tasks">
+            <div class="task-item">
+                <div class="task-info">
+                    <div class="task-icon">📱</div>
+                    <div class="task-details">
+                        <h3>Join Our Telegram Channel</h3>
+                        <div class="task-reward">+50 coins</div>
+                    </div>
+                </div>
+                <button class="task-btn" onclick="completeTask(this, 50)">Start</button>
+            </div>
+
+            <div class="task-item">
+                <div class="task-info">
+                    <div class="task-icon">🌐</div>
+                    <div class="task-details">
+                        <h3>Visit Our Website</h3>
+                        <div class="task-reward">+30 coins</div>
+                    </div>
+                </div>
+                <button class="task-btn" onclick="completeTask(this, 30)">Start</button>
+            </div>
+
+            <div class="task-item">
+                <div class="task-info">
+                    <div class="task-icon">🎥</div>
+                    <div class="task-details">
+                        <h3>Watch Tutorial Video</h3>
+                        <div class="task-reward">+40 coins</div>
+                    </div>
+                </div>
+                <button class="task-btn" onclick="completeTask(this, 40)">Start</button>
+            </div>
+
+            <div class="task-item">
+                <div class="task-info">
+                    <div class="task-icon">👍</div>
+                    <div class="task-details">
+                        <h3>Follow Us on Social Media</h3>
+                        <div class="task-reward">+35 coins</div>
+                    </div>
+                </div>
+                <button class="task-btn" onclick="completeTask(this, 35)">Start</button>
+            </div>
+
+            <div class="task-item">
+                <div class="task-info">
+                    <div class="task-icon">⭐</div>
+                    <div class="task-details">
+                        <h3>Rate Our App</h3>
+                        <div class="task-reward">+60 coins</div>
+                    </div>
+                </div>
+                <button class="task-btn" onclick="completeTask(this, 60)">Start</button>
+            </div>
+        </div>
+
+        <div class="screen" id="balance">
+            <div class="card balance-card">
+                <div class="balance-amount" id="balance-current">1,250</div>
+                <div class="balance-label">💰 Current Balance</div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">2,840</div>
+                    <div class="stat-label">Total Earned</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">1,590</div>
+                    <div class="stat-label">Total Withdrawn</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 style="margin-bottom: 16px; color: #374151;">📊 Earning History</h3>
+                <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #f1f5f9;">
+                    <span>Ad Rewards</span>
+                    <span style="color: #10b981; font-weight: 600;">+1,175 coins</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #f1f5f9;">
+                    <span>Task Rewards</span>
+                    <span style="color: #10b981; font-weight: 600;">+980 coins</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #f1f5f9;">
+                    <span>Referral Bonus</span>
+                    <span style="color: #10b981; font-weight: 600;">+685 coins</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 12px 0;">
+                    <span>Withdrawals</span>
+                    <span style="color: #ef4444; font-weight: 600;">-1,590 coins</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="screen" id="referral">
+            <div class="card">
+                <h3 style="margin-bottom: 16px; color: #374151;">🎯 Invite Friends & Earn</h3>
+                <p style="color: #64748b; margin-bottom: 20px; font-size: 14px;">
+                    Share your referral link and earn 100 coins for each friend who joins!
+                </p>
+                
+                <div class="referral-link">
+                    <div class="referral-url" id="referral-url">
+                        https://t.me/ViewEarnBot?start=ref_user123456
+                    </div>
+                    <button class="copy-btn" onclick="copyReferralLink()">📋 Copy Link</button>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">23</div>
+                    <div class="stat-label">Friends Invited</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">2,300</div>
+                    <div class="stat-label">Referral Earnings</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 style="margin-bottom: 16px; color: #374151;">🏆 Recent Referrals</h3>
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f1f5f9;">
+                    <div>
+                        <div style="font-weight: 500;">@user789</div>
+                        <div style="font-size: 12px; color: #64748b;">2 hours ago</div>
+                    </div>
+                    <span style="color: #10b981; font-weight: 600;">+100 coins</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f1f5f9;">
+                    <div>
+                        <div style="font-weight: 500;">@user456</div>
+                        <div style="font-size: 12px; color: #64748b;">1 day ago</div>
+                    </div>
+                    <span style="color: #10b981; font-weight: 600;">+100 coins</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0;">
+                    <div>
+                        <div style="font-weight: 500;">@user123</div>
+                        <div style="font-size: 12px; color: #64748b;">3 days ago</div>
+                    </div>
+                    <span style="color: #10b981; font-weight: 600;">+100 coins</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="screen" id="withdraw">
+            <div class="warning-box">
+                ⚠️ Minimum withdrawal amount is 1,000 coins. Withdrawals are processed within 24 hours.
+            </div>
+
+            <div class="card">
+                <div class="input-group">
+                    <label class="input-label" for="wallet-address">TON Wallet Address</label>
+                    <input 
+                        type="text" 
+                        id="wallet-address" 
+                        class="input-field" 
+                        placeholder="Enter your TON wallet address..."
+                        oninput="validateWithdrawal()"
+                    >
+                </div>
+
+                <div class="input-group">
+                    <label class="input-label" for="withdraw-amount">Amount to Withdraw</label>
+                    <input 
+                        type="number" 
+                        id="withdraw-amount" 
+                        class="input-field" 
+                        placeholder="Enter amount (min: 1000)"
+                        min="1000"
+                        max="1250"
+                        oninput="validateWithdrawal()"
+                    >
+                </div>
+
+                <div class="success-message" id="withdraw-success">
+                    ✅ Withdrawal request submitted successfully! You'll receive your coins within 24 hours.
+                </div>
+
+                <button class="withdraw-btn" id="withdraw-btn" onclick="processWithdrawal()" disabled>
+                    Request Withdrawal
+                </button>
+            </div>
+
+            <div class="card">
+                <h3 style="margin-bottom: 16px; color: #374151;">📋 Recent Withdrawals</h3>
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f1f5f9;">
+                    <div>
+                        <div style="font-weight: 500;">1,000 coins</div>
+                        <div style="font-size: 12px; color: #64748b;">Completed - 2 days ago</div>
+                    </div>
+                    <span style="color: #10b981; font-weight: 600;">✅</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0;">
+                    <div>
+                        <div style="font-weight: 500;">500 coins</div>
+                        <div style="font-size: 12px; color: #64748b;">Completed - 1 week ago</div>
+                    </div>
+                    <span style="color: #10b981; font-weight: 600;">✅</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
